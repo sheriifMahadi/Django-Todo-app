@@ -1,0 +1,78 @@
+{% extends "Todo/base.html" %}
+
+{% block content %}
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap");
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+           line-height: 1.8em;
+           font-size: 1.0em;
+           font-weight: 400;
+           background-color: rgb(209, 141, 14);
+           font-family: "Poppings", sans-serif;
+       }
+
+       h1{
+           text-transform: uppercase;
+           margin: 0.5em;
+           text-align: center;
+       }
+
+        .search:focus{
+           width: 30%;
+       }
+       .search{        
+        width: 20%;
+        align-self: center;
+        padding: 0.5em;
+        margin: 0.5em;
+        box-sizing: border-box;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        transition: width 0.4s ease-in-out;
+
+       }
+
+       .edit{
+            margin: auto;
+            display: block;
+            text-align: center;
+       }
+
+       button {
+           width: 10%;
+           border-radius: 4px;
+           height: 2em;
+           border: none;
+           outline: none;
+           background-color: rgb(255, 166, 0);
+           margin: 10em 0em 0em 0em;
+;
+       }
+       button:hover{
+            background-color: rgb(122, 97, 50);
+       }
+
+       span {
+            margin: 0em 0.5em 0em 0em;
+       }
+    </style>
+    
+    <body>
+        <h1>Update Task</h1>
+        <div class="edit">
+            <form action="{% url 'todo:editTask' task.id %}" method="POST">
+                {% csrf_token %}
+                {{ form.task }}
+                <span>{{ form.completed }}</span>
+                <button name="submit">Update</button>
+            </form>
+
+        </div>
+    </body>
+{% endblock content %}

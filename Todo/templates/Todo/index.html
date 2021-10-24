@@ -1,0 +1,142 @@
+{% extends "Todo/base.html" %}
+{% block content %}
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap");
+        
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        h1{
+            text-align:  center;
+            margin: 1.1em;
+            text-transform: uppercase;
+        }
+        body {
+           line-height: 1.8em;
+           font-size: 1.0em;
+           font-weight: 400;
+           background-color: rgb(209, 141, 14);
+           font-family: "Poppings", sans-serif;
+       }
+       .search:focus{
+           width: 30%;
+       }
+       .search{        
+        width: 20%;
+        align-self: center;
+        padding: 0.5em;
+        margin: 0.5em;
+        box-sizing: border-box;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        transition: width 0.4s ease-in-out;
+
+       }
+       .completed{
+        width: 8%;
+        padding: 0.2em;
+        border: none;
+        outline: none;
+        background-color: #f1f1f1;
+       }
+       .completed:hover{
+        background-color: rgb(204, 202, 197);
+
+       }
+       
+       .fieldset{
+           margin: auto;
+           display: block;
+           text-align: center;
+       }
+       .first_button{
+           text-align: center;
+           display: block;
+           margin: 1em 4em 1em 0.5em
+       }
+      
+       button {
+           width: 10%;
+           border-radius: 4px;
+           height: 2em;
+           border: none;
+           outline: none;
+           background-color: rgb(255, 166, 0);
+       }
+       button:hover{
+            background-color: rgb(122, 97, 50);
+       }
+       
+       .task_list{
+            text-align: center;
+            display: block;
+            padding: 2em 4em 1em 0.5em;
+            background-color: rgb(189, 127, 14);
+            margin: auto;
+            
+       }
+       .add_task{
+            margin: auto;
+            display: block;
+            text-align: center;
+       }
+       h3{
+           text-transform: uppercase;
+           margin: 0.5em;
+       }
+    </style>
+
+    <h1>Simple TodoApp</h1>
+    <body>
+        <div class="query">
+            <form action="{% url 'todo:home' %}" method="GET">
+                <div class="fieldset">
+                    {{ myFilter.form.task}}
+                    {{ myFilter.form.completed}}
+
+                </div>
+                <div class="first_button">
+                    <button name="submit">Search</button>
+                </div>
+
+                </form>         
+        </div>
+
+        <div class="task_list">
+            <h3>Tasks:</h3>
+            <ul>
+                {% for task in all_tasks %}
+                <div class="task">
+                    {% if task.completed == True %}
+                        <li>
+                            <strike>{{ task }}</strike>
+                            <a href="{% url 'todo:editTask' task.id %}">Edit</a>
+                            <a href="{% url 'todo:deleteTask' task.id %}">Delete</a>
+                        </li>
+                    {% else %}
+                        <li>{{ task }}
+                            <a href="{% url 'todo:editTask' task.id %}">Edit</a>
+                            <a href="{% url 'todo:deleteTask' task.id %}">Delete</a>
+                        </li>
+                    {% endif%}
+                </div>
+                {% empty %}
+                    <li>No Task has been added yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="add_task">
+            <form action="{% url 'todo:home' %}" method="POST">
+                {% csrf_token %}
+                {{ form.task }}
+                <button name="submit">New Task</button>
+            </form>
+        </div>
+
+    </body>
+   
+{% endblock content %}
